@@ -1,1 +1,1 @@
-# Python-GUI-using-PyQt5
+# Python GUI with PyQt5
