@@ -80,13 +80,13 @@ class window1(QMainWindow):
         self.button1 = QtWidgets.QPushButton(self)
         self.button1.setText('Print text button')
         self.button1.move(200,200)
-        self.button1.clicked.connect(self.button1_event)
+        self.button1.clicked.connect(self.msg_box)
 
 
         ### Added textbox ###
-        self.textbox1 = QLineEdit(self)
+        self.textbox1 = QLineEdit(self)    
         self.textbox1.move(200,90)
-        self.textbox1.resize(100,35)
+        self.textbox1.resize(200,35)
 
 
     ### Added events for click operations ###
@@ -111,6 +111,11 @@ class window1(QMainWindow):
 
     def button1_event(self):                   ## Event associated with button1 (printing the content of textbox) 
         print('Button1 clicked!!')
+
+    def msg_box(self):                      ## Event associated with printing a message box 
+        msg = self.textbox1.text()          ## Storing the text present inside the text box into 'msg' variable
+        QMessageBox.question(self,'Message box',msg,QMessageBox.Ok,QMessageBox.Cancel)      ## Displaying message box alogwith a message and with some buttons
+        self.textbox1.setText("")           ## Reseting the textbox after printing the message
 
     
 
