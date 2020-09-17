@@ -88,6 +88,17 @@ class window1(QMainWindow):
         self.textbox1.move(200,90)
         self.textbox1.resize(200,35)
 
+        #### Setting main menu ###
+        main_menu = self.menuBar()
+        file_menu = main_menu.addMenu('File')
+        edit_menu = main_menu.addMenu('Edit')
+        view_menu = main_menu.addMenu('View')
+        help_menu = main_menu.addMenu('Help')
+
+        exit_button = QAction('Exit',self)
+        exit_button.triggered.connect(self.close)
+        file_menu.addAction(exit_button)
+        self.show()
 
     ### Added events for click operations ###
 
