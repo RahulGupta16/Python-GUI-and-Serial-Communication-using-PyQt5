@@ -9,6 +9,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox, QDialog, QVBoxLayout, QGridLayout
 import sys
+import matplotlib.pyplot as plt
 
 
 ######### GENERATING A CLASS FOR RUNNING THE GUI SCRIPT FROM ANY OTHER SOURCE #########
@@ -18,8 +19,8 @@ class window1(QMainWindow):
 
     def __init__(self):
         super(window1,self).__init__()
-        self.setGeometry(500,200,500,300)        # self -> QMainWindow  ,   
-        self.setWindowTitle("First Window")      # Title of the main window
+        self.setGeometry(500,200,700,500)        # self -> QMainWindow  ,   
+        self.setWindowTitle("Simulation Window")      # Title of the main window
         self.UI()
         
 
@@ -40,6 +41,18 @@ class window1(QMainWindow):
         self.label3 = QtWidgets.QLabel(self)            
         self.label4 = QtWidgets.QLabel(self)
         self.label5 = QtWidgets.QLabel(self)
+
+        self.prog_bar = QtWidgets.QProgressBar(self)     # Added a progress bar
+        self.prog_bar.setGeometry(200,45,170,22)
+        self.prog_bar.setValue(52)
+        self.prog_bar.move(200,45)
+
+
+        self.slide = QtWidgets.QSlider(self)
+        self.slide.setGeometry(430,45,190,22)
+
+
+
 
         self.label1.setText("First content")            # set text of label to be printed on main e=screen
         self.label1.move(7,30)                          # set location of label to be placed on main screen as move(x_pos,y_pos)
