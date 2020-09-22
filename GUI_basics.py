@@ -7,7 +7,7 @@
 ##### IMPORTED ESSENTIAL LIBRARIES ######
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox, QDialog, QVBoxLayout, QGridLayout
 import sys
 
 
@@ -28,6 +28,13 @@ class window1(QMainWindow):
     ## Adding a label in the main window is done as ##
 
     def UI(self):
+
+        #QDialog.createGridLayout()
+        #win_lout = QVBoxLayout()
+        #win_lout.addWidget(self.horizontalGroupBox)
+
+
+
         self.label1 = QtWidgets.QLabel(self)            # set label on main screen
         self.label2 = QtWidgets.QLabel(self)
         self.label3 = QtWidgets.QLabel(self)            
@@ -139,6 +146,13 @@ class window1(QMainWindow):
         msg = 'This GUI is designed by Rahul Gupta alogwith Namira and Nishant for implementing their final year project'
         QMessageBox.question(self,'Description about GUI',msg,QMessageBox.Ok)
     
+ # def grid_method(self):
+ #       self.hortizontalGroupBox = QGroupBox('Grid')
+ #       layout = QGridLayout
+ #       layout.setColumnStretch(1,4)
+ #      layout.setColumnStretch(2,4)
+ #      layout.addWidget(QPushButton)
+ #       layout.addWidget(QPushButton('Ok'),0,0)
 
         
         
