@@ -48,7 +48,7 @@ class window1(QMainWindow):
 
     ## Adding push button in the main window is done as ##
 
-        self.push_but1 = QtWidgets.QPushButton(self)          # set push button to be added on mian window
+        self.push_but1 = QtWidgets.QPushButton(self)          # set push button to be added on main window
         self.push_but1.setText('Click Button1')               # set text to be printed on push button
         self.push_but1.move(100,30)                           # set location of the push button on main window
 
@@ -94,10 +94,16 @@ class window1(QMainWindow):
         edit_menu = main_menu.addMenu('Edit')
         view_menu = main_menu.addMenu('View')
         help_menu = main_menu.addMenu('Help')
+        about_menu = main_menu.addMenu('About')
 
         exit_button = QAction('Exit',self)
         exit_button.triggered.connect(self.close)
         file_menu.addAction(exit_button)
+        self.show()
+
+        desc_button = QAction('About the GUI designer',self)     ## Added description about the gui
+        desc_button.triggered.connect(self.desc_button)
+        about_menu.addAction(desc_button)
         self.show()
 
     ### Added events for click operations ###
@@ -125,9 +131,13 @@ class window1(QMainWindow):
 
     def msg_box(self):                      ## Event associated with printing a message box 
         msg = self.textbox1.text()          ## Storing the text present inside the text box into 'msg' variable
+        print(type(msg))
         QMessageBox.question(self,'Message box',msg,QMessageBox.Ok,QMessageBox.Cancel)      ## Displaying message box alogwith a message and with some buttons
         self.textbox1.setText("")           ## Reseting the textbox after printing the message
-
+    
+    def desc_button(self):
+        msg = 'This GUI is designed by Rahul Gupta alogwith Namira and Nishant for implementing their final year project'
+        QMessageBox.question(self,'Description about GUI',msg,QMessageBox.Ok)
     
 
         
