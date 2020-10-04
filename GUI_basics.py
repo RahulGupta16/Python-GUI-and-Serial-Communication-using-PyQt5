@@ -8,9 +8,15 @@
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox, QDialog, QVBoxLayout, QGridLayout
+from PyQt5.QtCore import QAbstractTableModel, Qt
 import sys
+import pandas as pd
 import matplotlib.pyplot as plt
+import serial
 
+ard_data = serial.Serial('COM5',9600,timeout=1)
+
+#data = pd.read_csv(r'C:\Users\Rahul\Desktop\Kaggle-s-Titanic-survival-prediction\train.csv')
 
 ######### GENERATING A CLASS FOR RUNNING THE GUI SCRIPT FROM ANY OTHER SOURCE #########
 class window1(QMainWindow):
@@ -96,6 +102,16 @@ class window1(QMainWindow):
         self.push_but5.move(200,240)
         self.push_but5.clicked.connect(self.event5)
 
+        self.prog_but_str = QtWidgets.QPushButton(self)
+        self.prog_but_str.setText('Start')
+        self.prog_but_str.move(200,280)
+        self.prog_but_str.clicked.connect(self.start_but)   ### For powering ON the led
+    
+        self.prog_but_res = QtWidgets.QPushButton(self)
+        self.prog_but_res.setText('Reset')
+        self.prog_but_res.move(300,280)
+        self.prog_but_res.clicked.connect(self.reset_but)     # For powering OFF the led
+
 
         self.button1 = QtWidgets.QPushButton(self)
         self.button1.setText('Print text button')
@@ -156,8 +172,18 @@ class window1(QMainWindow):
         self.textbox1.setText("")           ## Reseting the textbox after printing the message
     
     def desc_button(self):
-        msg = 'This GUI is designed by Rahul Gupta alogwith Namira and Nishant for implementing their final year project'
-        QMessageBox.question(self,'Description about GUI',msg,QMessageBox.Ok)
+        msg = 'This GUI is designed for displaying the sensor values and providing graphical representation. Project is designed by Rahul alogwith Namira and Nishant for implementing their final year project'
+        QMessageBox.question(self,'About the GUI designer',msg,QMessageBox.Ok)
+
+    def start_but(self):                    # Event associated with start
+            ard_data.write(b'1')
+        
+
+    def reset_but(self):                    # Event associated with stop
+            ard_data.write(b'0')
+        
+
+
     
  # def grid_method(self):
  #       self.hortizontalGroupBox = QGroupBox('Grid')
@@ -176,6 +202,8 @@ class window1(QMainWindow):
 #    sys.exit(app.exec_())                       
 
 #display()
+
+
 
 if(__name__=='__main__'):
     app = QApplication(sys.argv)
