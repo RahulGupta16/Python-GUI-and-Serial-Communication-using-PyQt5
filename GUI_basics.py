@@ -175,12 +175,16 @@ class window1(QMainWindow):
         msg = 'This GUI is designed for displaying the sensor values and providing graphical representation. Project is designed by Rahul alogwith Namira and Nishant for implementing their final year project'
         QMessageBox.question(self,'About the GUI designer',msg,QMessageBox.Ok)
 
-    def start_but(self):                    # Event associated with start
-            ard_data.write(b'1')
+    def start_but(self): 
+        msg = 'ON LED ?'
+        QMessageBox.question(self,'Message box',msg,QMessageBox.Ok)                   # Event associated with start
+        ard_data.write(b'1')
         
 
-    def reset_but(self):                    # Event associated with stop
-            ard_data.write(b'0')
+    def reset_but(self):  
+        msg = 'OFF LED ?'
+        QMessageBox.question(self,'Message box',msg,QMessageBox.Ok)                     # Event associated with stop
+        ard_data.write(b'0')
         
 
 
