@@ -13,9 +13,12 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import serial
+import requests
+import time
+from ws4py.client.threadedclient import WebSocketClient
 
-ard_data = serial.Serial('COM5',9600,timeout=1)
-
+print(dir(serial))
+#ard_data = serial.Serial('COM5',9600,timeout=1)
 #data = pd.read_csv(r'C:\Users\Rahul\Desktop\Kaggle-s-Titanic-survival-prediction\train.csv')
 
 ######### GENERATING A CLASS FOR RUNNING THE GUI SCRIPT FROM ANY OTHER SOURCE #########
