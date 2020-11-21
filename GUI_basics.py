@@ -7,7 +7,7 @@
 ##### IMPORTED ESSENTIAL LIBRARIES ######
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox, QDialog, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox, QDialog, QVBoxLayout, QGridLayout, QWidget, QLabel
 from PyQt5.QtCore import QAbstractTableModel, Qt
 import sys
 import pandas as pd
@@ -17,7 +17,6 @@ import requests
 import time
 from ws4py.client.threadedclient import WebSocketClient
 
-print(dir(serial))
 #ard_data = serial.Serial('COM5',9600,timeout=1)
 #data = pd.read_csv(r'C:\Users\Rahul\Desktop\Kaggle-s-Titanic-survival-prediction\train.csv')
 
@@ -31,7 +30,7 @@ class window1(QMainWindow):
         self.setGeometry(500,200,700,500)        # self -> QMainWindow  ,   
         self.setWindowTitle("Simulation Window")      # Title of the main window
         self.UI()
-        
+        self.w = None
 
     ####### Contents to be present inside the main window #######
 
@@ -121,6 +120,11 @@ class window1(QMainWindow):
         self.button1.move(200,200)
         self.button1.clicked.connect(self.msg_box)
 
+        self.graph1 = QtWidgets.QPushButton(self)
+        self.graph1.setText('Graph 1')
+        self.graph1.move(300,370)
+        self.graph1.clicked.connect(self.graph1_box)
+
 
         ### Added textbox ###
         self.textbox1 = QLineEdit(self)    
@@ -189,6 +193,23 @@ class window1(QMainWindow):
         QMessageBox.question(self,'Message box',msg,QMessageBox.Ok)                     # Event associated with stop
         ard_data.write(b'0')
         
+    def graph1_box(self, checeked):
+        if(self.w==None):
+            self.w = another_window()
+        self.w.show()
+
+
+
+class another_window(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        self.setGeometry(200,200,400,600)
+        self.label = QLabel("Graph window")
+        layout.addWidget(self.label)
+        self.setLayout(layout)   
+
 
 
     
@@ -214,6 +235,6 @@ class window1(QMainWindow):
 
 if(__name__=='__main__'):
     app = QApplication(sys.argv)
-    win = window1()                         
+    win = window1()                     
     win.show()                                  
     sys.exit(app.exec_())                       
