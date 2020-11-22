@@ -3,21 +3,29 @@
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLineEdit, QMessageBox, QDialog, QVBoxLayout, QGridLayout, QWidget, QLabel, QSlider, QScrollArea, QHBoxLayout
-from PyQt5.QtCore import QAbstractTableModel, Qt, QSize
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5 import *
 import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import serial
 import requests
-import time
+import time, threading
+import schedule
 from ws4py.client.threadedclient import WebSocketClient
 
+global ard_data
+ard_data = serial.Serial('COM5',9600,timeout=10)
+#ard_data.close()
+#ard_data.open()
 
-#ard_data = serial.Serial('COM5',9600,timeout=1)
-#data = pd.read_csv(r'C:\Users\Rahul\Desktop\Kaggle-s-Titanic-survival-prediction\train.csv')
+#while True:
 
+#    data = ard_data.readline()
+#    print(data.decode())
 ######### GENERATING A CLASS FOR RUNNING THE GUI SCRIPT FROM ANY OTHER SOURCE #########
 class window1(QMainWindow):
 
@@ -84,14 +92,14 @@ class window1(QMainWindow):
 
 
 
-        self.prog_bar = QtWidgets.QProgressBar(self)     # Added a progress bar
-        self.prog_bar.setGeometry(200,500,170,22)
-        self.prog_bar.setValue(52)
-        self.prog_bar.move(200,500)
+       # self.prog_bar = QtWidgets.QProgressBar(self)     # Added a progress bar
+       # self.prog_bar.setGeometry(200,500,170,22)
+       # self.prog_bar.setValue(52)
+       # self.prog_bar.move(200,500)
 
 
-        self.slide = QtWidgets.QSlider(self)
-        self.slide.setGeometry(430,500,190,22)
+        #self.slide = QtWidgets.QSlider(self)
+        #self.slide.setGeometry(430,500,190,22)
 
 
 
@@ -114,11 +122,18 @@ class window1(QMainWindow):
         self.label8.move(380,170)
         self.label9.setText("MQ2 Sensor4")
         self.label9.move(550,170)
-        self.label10.setText("MQ2 Sensor5")
-        self.label10.move(710,170)
+
+        #with serial.Serial('COM5',9600,timeout=5) as ard_data:
+
+            #  statement = ard_data.readline()
+            #   decode = str(statement.decode('utf 8'))
+        #self.label10.setText(decode)
+            # print(decode)
+        #schedule.every(2).seconds.do()
+        #self.label10.move(710,170)
         
-       # self.label5.setText('Refresh the content')
-       # self.label5.move(100,240)
+    # self.label5.setText('Refresh the content')
+    # self.label5.move(100,240)
 
 
     ## Adding push button in the main window is done as ##
@@ -176,37 +191,37 @@ class window1(QMainWindow):
         self.push_but10.move(710,250)
         self.push_but10.clicked.connect(self.graph10_box)
 
-        self.push_but_r = QtWidgets.QPushButton(self)
-        self.push_but_r.setText('Refresh')
-        self.push_but_r.move(300,350)
-        self.push_but_r.clicked.connect(self.refresh)
+       # self.push_but_r = QtWidgets.QPushButton(self)
+       # self.push_but_r.setText('Refresh')
+       # self.push_but_r.move(300,350)
+       # self.push_but_r.clicked.connect(self.refresh)
 
-        self.prog_but_str = QtWidgets.QPushButton(self)
-        self.prog_but_str.setText('Start')
-        self.prog_but_str.move(200,280)
-        self.prog_but_str.clicked.connect(self.start_but)   ### For powering ON the led
+      #  self.prog_but_str = QtWidgets.QPushButton(self)
+      #  self.prog_but_str.setText('Start')
+      #  self.prog_but_str.move(200,280)
+      #  self.prog_but_str.clicked.connect(self.start_but)   ### For powering ON the led
     
-        self.prog_but_res = QtWidgets.QPushButton(self)
-        self.prog_but_res.setText('Reset')
-        self.prog_but_res.move(300,280)
-        self.prog_but_res.clicked.connect(self.reset_but)     # For powering OFF the led
+      #  self.prog_but_res = QtWidgets.QPushButton(self)
+      #  self.prog_but_res.setText('Reset')
+      #  self.prog_but_res.move(300,280)
+      #  self.prog_but_res.clicked.connect(self.reset_but)     # For powering OFF the led
 
 
-        self.button1 = QtWidgets.QPushButton(self)
-        self.button1.setText('Print text button')
-        self.button1.move(250,500)
-        self.button1.clicked.connect(self.msg_box)
+      #  self.button1 = QtWidgets.QPushButton(self)
+      #  self.button1.setText('Print text button')
+      #  self.button1.move(250,500)
+      #  self.button1.clicked.connect(self.msg_box)
 
-        self.graph1 = QtWidgets.QPushButton(self)
-        self.graph1.setText('Graph 1')
-        self.graph1.move(300,370)
-        self.graph1.clicked.connect(self.graph1_box)
+      #  self.graph1 = QtWidgets.QPushButton(self)
+      #  self.graph1.setText('Graph 1')
+      #  self.graph1.move(300,370)
+      #  self.graph1.clicked.connect(self.graph1_box)
 
 
         ### Added textbox ###
-        self.textbox1 = QLineEdit(self)    
-        self.textbox1.move(200,490)
-        self.textbox1.resize(200,35)
+       # self.textbox1 = QLineEdit(self)    
+       # self.textbox1.move(200,490)
+       # self.textbox1.resize(200,35)
 
         #### Setting main menu ###
         main_menu = self.menuBar()
@@ -219,21 +234,123 @@ class window1(QMainWindow):
         exit_button = QAction('Exit',self)
         exit_button.triggered.connect(self.close)
         file_menu.addAction(exit_button)
-        self.show()
+       # self.show()
 
         desc_button = QAction('About the GUI designer',self)     ## Added description about the gui
         desc_button.triggered.connect(self.desc_button)
         about_menu.addAction(desc_button)
-        self.show()
+        #self.show()
 
 
+
+
+        self.read = QPushButton("Read", self)
+        self.read.clicked.connect(self.read_data)
+        self.read.setFixedSize(100, 40)
+        self.read.move(390, 390)
+
+        self.clear = QPushButton("Clear", self)
+        self.clear.clicked.connect(self.clear_data)
+        self.clear.setFixedSize(100, 40)
+        self.clear.move(240, 390)
+
+        self.cont =QCheckBox(self)
+        self.cont.stateChanged.connect(self.up_1s)
+        self.cont.move(352,370)
+
+        self.label14 = QLabel("Water meter 1", self)
+        setFnt = QFont("Times", 9, QFont.Bold)
+        self.label14.setFont(setFnt)
+        self.label14.setFixedSize(300, 35)
+        self.label14.move(50,80)
+
+        self.label15 = QLabel("Water meter 2", self)
+        setFnt = QFont("Times", 9, QFont.Bold)
+        self.label15.setFont(setFnt)
+        self.label15.setFixedSize(300, 35)
+        self.label15.move(210,80)
+
+        self.label16 = QLabel("Water meter 3", self)
+        setFnt = QFont("Times", 9, QFont.Bold)
+        self.label16.setFont(setFnt)
+        self.label16.setFixedSize(300, 35)
+        self.label16.move(380,80)
+
+        self.label17 = QLabel("Water meter 4", self)
+        setFnt = QFont("Times", 9, QFont.Bold)
+        self.label17.setFont(setFnt)
+        self.label17.setFixedSize(300, 35)
+        self.label17.move(550,80)
+
+        self.label18 = QLabel("Water meter 5", self)
+        setFnt = QFont("Times", 9, QFont.Bold)
+        self.label18.setFont(setFnt)
+        self.label18.setFixedSize(300, 35)
+        self.label18.move(710,80)
+
+
+        self.TimerTask=None
 
         
 
 
-        return
+
+
+
+
+
+
+
+
+
+
+
+    def read_data(self):
+        k = ard_data.readline().decode()
+        self.label14.setText(k)
+        print(k)
+        k = ard_data.readline().decode()
+        self.label15.setText(k)
+        #print(k)
+
+    def clear_data(self):
+        self.label14.clear()
+
+
+    def up_1s(self,state):
+        '''
+        Threading
+        Continuosly Read data for every 1Sec
+        '''
+
+        try:
+            if self.TimerTask == None:
+                self.TimerTask = QTimer()
+
+
+            if state == QtCore.Qt.Checked:
+                #self.read()
+                self.TimerTask.timeout.connect(self.read_data)
+            #    print(self.TimerTask.timeout.connect(self.read_data))
+                self.TimerTask.start(1000)
+                
+            else:
+                self.TimerTask.stop()
+                
+            pass
+
+        except(TypeError,ValueError,AttributeError):
+
+            print("Oops!", sys.exc_info()[0], "occured.")
+            pass
+
+
+
+    
 
     ### Added events for click operations ###
+
+    
 
     def event1(self):                                 # Specific function of event to be done after 
         self.label1.setText("You clicked 1")          # clicking the push button
@@ -274,7 +391,7 @@ class window1(QMainWindow):
     def start_but(self): 
         msg = 'ON LED ?'
         QMessageBox.question(self,'Message box',msg,QMessageBox.Ok)                   # Event associated with start
-   #     ard_data.write(b'1')
+#     ard_data.write(b'1')
         
 
     def reset_but(self):  
@@ -437,13 +554,13 @@ class another_window10(QWidget):
         self.setLayout(layout) 
 
     
- # def grid_method(self):
- #       self.hortizontalGroupBox = QGroupBox('Grid')
- #       layout = QGridLayout
- #       layout.setColumnStretch(1,4)
- #      layout.setColumnStretch(2,4)
- #      layout.addWidget(QPushButton)
- #       layout.addWidget(QPushButton('Ok'),0,0)
+# def grid_method(self):
+#       self.hortizontalGroupBox = QGroupBox('Grid')
+#       layout = QGridLayout
+#       layout.setColumnStretch(1,4)
+#      layout.setColumnStretch(2,4)
+#      layout.addWidget(QPushButton)
+#       layout.addWidget(QPushButton('Ok'),0,0)
 
         
         
@@ -459,6 +576,17 @@ class another_window10(QWidget):
 
 if(__name__=='__main__'):
     app = QApplication(sys.argv)
-    win = window1()                     
-    win.show()                                  
+  #  MainWindow = QtWidgets.QMainWindow()    
+    win = window1()  
+  #  win.setupUi(MainWindow)   
+  #  MainWindow.show()                
+    win.show()  
     sys.exit(app.exec_())                       
+
+
+   # while True:
+
+    #    data = ard_data.readline()
+       # window1.UI.label8.setText(data)
+    #    print(data.decode())
+                                
